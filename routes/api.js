@@ -10,12 +10,15 @@ router.get('/country/*', function(req, res, next) {
 
   user.readUserCountry(steamId, country => {
     if (country.includes("ERROR: ")) {
+      res.status(404);
       res.send(country);
     } else {
       user.readCountryShortName(country, shortCountry => {
         if (shortCountry.includes("ERROR: ")) {
+          res.status(404);
           res.send(shortCountry);
         } else {
+          res.status(200);
           res.send(`https://www.countryflags.io/${shortCountry}/flat/24.png`);
         }
       });

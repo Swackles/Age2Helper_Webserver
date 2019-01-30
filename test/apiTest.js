@@ -17,7 +17,7 @@ describe('get /api/country/*', () => {
 
     it('Should return a NaN error', done => {
         chai.request(app).get('/api/country/assdasfas').end((err, res) => {
-            expect(res).have.property('status', 200);
+            expect(res).have.property('status', 404);
             expect(res).have.property('text', 'ERROR: NaN');
             done();
         });
@@ -25,7 +25,7 @@ describe('get /api/country/*', () => {
 
     it('Should return a inavlid steamID', done => {
         chai.request(app).get('/api/country/4654654').end((err, res) => {
-            expect(res).have.property('status', 200);
+            expect(res).have.property('status', 404);
             expect(res).have.property('text', 'ERROR: Invalid steamID');
             done();
         });

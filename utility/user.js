@@ -36,7 +36,7 @@ module.exports.readCountryShortName = (country, returnFunc) => {
 
         res.on('end', () => {
             data = JSON.parse(data);
-            if (data.hasOwnProperty("status") && data.status == 404) { return returnFunc("ERRPR: Country Invalid"); }
+            if (data.hasOwnProperty("status") && data.status == 404) { return returnFunc("ERROR: Country Invalid"); }
             
             return returnFunc(data[0].alpha2Code);
         });

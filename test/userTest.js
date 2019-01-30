@@ -38,7 +38,7 @@ describe("Country shortname", () => {
     });
     it("Country is not correct", done => {
         user.readCountryShortName("Ullah", value => {
-            expect(value).to.equal("ERRPR: Country Invalid");
+            expect(value).to.equal("ERROR: Country Invalid");
             done();
         });
     });
