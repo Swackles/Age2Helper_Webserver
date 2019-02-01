@@ -35,7 +35,7 @@ describe("Database Country Select queries", () => {
             expect(err).to.equal(null);
             expect(connection).to.not.equal(null);
 
-            mysql.selectCountry(connection, { Country: { Id: 1 } }, (res, err) => {
+            mysql.selectCountry(connection, { Country: { Id: "1" } }, (res, err) => {
                 expect(err).to.equal(null);
                 expect(res).to.be.an("array");
                 expect(res).not.to.equal(null);
@@ -55,7 +55,9 @@ describe("Database Country Select queries", () => {
             mysql.selectCountry(connection, { }, (res, err) => {
                 expect(err).to.equal("ERROR: Country is not an object");
                 expect(res).to.equal(null);     
-                mysql.cancelTransaction(connection, () => {                     done();                 });
+                mysql.cancelTransaction(connection, () => {
+                    done();
+                });
             });
         });
     });
@@ -68,7 +70,9 @@ describe("Database Country Select queries", () => {
             mysql.selectCountry(connection, { Country: "string" }, (res, err) => {
                 expect(err).to.equal("ERROR: Country is not an object");
                 expect(res).to.equal(null);
-                mysql.cancelTransaction(connection, () => {                     done();                 });
+                mysql.cancelTransaction(connection, () => {
+                    done();
+                });
             });
         });
     });
@@ -81,7 +85,9 @@ describe("Database Country Select queries", () => {
             mysql.selectCountry(connection, { Country: { } }, (res, err) => {
                 expect(err).to.equal("ERROR: No valid data");
                 expect(res).to.equal(null);
-                mysql.cancelTransaction(connection, () => {                     done();                 });
+                mysql.cancelTransaction(connection, () => {
+                    done();
+                });
             });
         });
     });
@@ -94,7 +100,42 @@ describe("Database Country Select queries", () => {
             mysql.selectCountry(connection, { Country: { Id: "string" } }, (res, err) => {
                 expect(err).to.equal("ERROR: No valid data");
                 expect(res).to.equal(null);
-                mysql.cancelTransaction(connection, () => {                     done();                 });
+                mysql.cancelTransaction(connection, () => {
+                    done();
+                });
+            });
+        });
+    });
+
+    it("Select Country_ID set", done => {
+        mysql.createTransaction((connection, err) => {
+            expect(err).to.equal(null);
+            expect(connection).to.not.equal(null);
+
+            mysql.selectCountry(connection, { Country: { Id: "1" } }, (res, err) => {
+                expect(err).to.equal(null);
+                expect(res).to.be.an("array");
+                expect(res).to.not.equal(null);
+                mysql.cancelTransaction(connection, () => {
+                    done();
+                });
+            });
+        });
+    });
+
+    it("select Country_String set", done => {
+        mysql.createTransaction((connection, err) => {
+            expect(err).to.equal(null);
+            expect(connection).to.not.equal(null);
+
+            mysql.selectCountry(connection, { Country: { Name: "Unknown" } }, (res, err) => {
+                expect(err).to.equal(null);
+                expect(res).to.be.an("array");
+                expect(res).to.not.equal(null);
+
+                mysql.cancelTransaction(connection, () => {
+                    done();
+                });
             });
         });
     });
@@ -172,9 +213,10 @@ describe("Database user Select query", () => {
             expect(err).to.equal(null);
             expect(connection).to.not.equal(null);
 
-            mysql.selectUser(connection, { User: { SteamID: 15465487 } }, (res, err) => {
+            mysql.selectUser(connection, { User: { SteamID: "15465487" } }, (res, err) => {
                 expect(err).to.equal(null);
                 expect(res).not.to.equal(null);
+                expect(res).to.be.an("array");
                 
                 mysql.cancelTransaction(connection, () => {
                     done();
@@ -236,7 +278,7 @@ describe("Database user Select query", () => {
             expect(err).to.equal(null);
             expect(connection).to.not.equal(null);
 
-            mysql.selectUser(connection, { User: { SteamID: 1111111111111111111111111 } }, (res, err) => {
+            mysql.selectUser(connection, { User: { SteamID: "1111111111111111111111111" } }, (res, err) => {
                 expect(err).to.equal("ERROR: SteamID is too long");
                 expect(res).to.equal(null);
                 
@@ -254,7 +296,7 @@ describe("Database user insert query", () => {
             expect(err).to.equal(null);
             expect(connection).to.not.equal(null);
 
-            mysql.insertUser(connection, { Country: { Id: 1 }, User: { SteamID: 15465487 } }, (res, err) => {
+            mysql.insertUser(connection, { Country: { Id: 1 }, User: { SteamID: "15465487" } }, (res, err) => {
                 expect(err).to.equal(null);
                 expect(res).not.to.equal(null);
                 
@@ -318,7 +360,7 @@ describe("Database user insert query", () => {
             expect(err).to.equal(null);
             expect(connection).to.not.equal(null);
 
-            mysql.selectUser(connection, { Country: { Id: 1 }, User: { SteamID: 1111111111111111111111111 } }, (res, err) => {
+            mysql.selectUser(connection, { Country: { Id: 1 }, User: { SteamID: "1111111111111111111111111" } }, (res, err) => {
                 expect(err).to.equal("ERROR: SteamID is too long");
                 expect(res).to.equal(null);
                 

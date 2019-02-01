@@ -3,12 +3,12 @@ const xml =  require('xml-js');
 
 module.exports.readUserCountry = (steamId, returnFunc) => {
     if (isNaN(steamId)) { return returnFunc("ERROR: NaN"); }
-  
+
     https.get(`https://steamcommunity.com/profiles/${steamId}/?xml=1`, res => {
     let data = '';
   
     res.on('data', chunk => {
-        data += chunk
+        data += chunk   
     });
 
     res.on('end', () => {

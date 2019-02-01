@@ -28,12 +28,10 @@ module.exports.selectCountry = (connection, data, callback) => {
 
     let query = ""
 
-    Console.log(typeof data.Country.Name);
-
     if (typeof data.Country.Name == "string") {
         query = `SELECT * FROM country WHERE Name = ${ connection.escape(data.Country.Name) }`;
     }
-    if (typeof data.Country.Id == "number") {
+    else if (!isNaN(data.Country.Id)) {
         query = `SELECT * FROM country WHERE id = ${ connection.escape(data.Country.Id) }`;
     } else {
         return callback(null, "ERROR: No valid data");
@@ -59,10 +57,10 @@ module.exports.insertCountry = (connection, data, callback) => {
 module.exports.selectUser = (connection, data, callback) => {
     if (typeof data.User != "object") return callback(null, "ERROR: User is not an object"); 
     if (typeof data.User == "undefined") return callback(null, "ERROR: User is undefined");
-    if (typeof data.User.SteamID != "number") return callback(null, "ERROR: Steam ID is NaN");
+    if (isNaN(data.User.SteamID)) return callback(null, "ERROR: Steam ID is NaN");
     if (data.User.SteamID.toString().length > 20) return callback(null, "ERROR: SteamID is too long");
 
-    connection.query(`SELECT * FROM user WHERE id = ${ connection.escape(data.User.SteamID) }`, (err, res) => {
+    connection.query(`SELECT user.id, user.steamID, user.countryID, user.updated, user.created, country.Name, country.Short2Name FROM user INNER JOIN country on user.countryID = country.id WHERE user.id = ${ connection.escape(data.User.SteamID) } `, (err, res) => {
         if (err) return callback (null, err);
         else return callback(res, null);
     });
@@ -71,11 +69,11 @@ module.exports.selectUser = (connection, data, callback) => {
 module.exports.insertUser = (connection, data, callback) => {
     if (typeof data.Country != "object") return callback(null, "ERROR: Country is not an object");
     if (typeof data.Country == "undefined") return callback(null, "ERROR: Country is undefined");
-    if (typeof data.Country.Id != "number") return callback(null, "ERROR: Country ID is NaN");
+    if (isNaN(data.Country.Id)) return callback(null, "ERROR: Country ID is NaN");
 
     if (typeof data.User != "object") return callback(null, "ERROR: User is not an object"); 
     if (typeof data.User == "undefined") return callback(null, "ERROR: User is undefined");
-    if (typeof data.User.SteamID != "number") return callback(null, "ERROR: Steam ID is NaN");
+    if (isNaN(data.User.SteamID)) return callback(null, "ERROR: Steam ID is NaN");
     if (data.User.SteamID.toString().length > 20) return callback(null, "ERROR: SteamID is too long");
 
     connection.query(`INSERT INTO user (SteamID, countryID) VALUES (${connection.escape(data.User.SteamID)}, ${connection.escape(data.Country.Id)})`, (err, res) => {
