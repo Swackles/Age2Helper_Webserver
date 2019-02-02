@@ -34,7 +34,11 @@ router.get('/country/*', function(serReq, serRes, next) {
         if (err) {
           console.log(err);
           serRes.status(404);
-          serRes.send("ERROR: SteamID could not be read");
+          if (err.includes("ERROR: ")) {
+            serRes.send(err);
+          } else {
+            serRes.send("ERROR: SteamID could not be read");
+          }
           mysql.cancelTransaction(connection, () => {/*END POINT*/});          
         } else {
           //If User dosen't exist
@@ -97,7 +101,7 @@ router.get('/country/*', function(serReq, serRes, next) {
                     // If country does exist
                     else {
                       serRes.status(200);
-                      serRes.send(`https://www.countryflags.io/${res.Short2Name}/flat/24.png`);
+                      serRes.send(`https://www.countryflags.io/${res[0].Short2Name}/flat/24.png`);
 
                       mysql.insertUser(connection, data, (res, err) => {
                         if (err) {
@@ -113,8 +117,8 @@ router.get('/country/*', function(serReq, serRes, next) {
           }
           // User does exist
           else {
-            serRes.status(200);
-            serRes.send(`https://www.countryflags.io/${res.Short2Name}/flat/24.png`);
+            serRes.status(200); 
+            serRes.send(`https://www.countryflags.io/${res[0].Short2Name}/flat/24.png`);
 
             mysql.commitTransaction(connection, (err) => {
               if (err) {

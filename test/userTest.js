@@ -23,7 +23,7 @@ describe("Country parsing", () => {
     });
     it("NaN", done => {
         user.readUserCountry("asdadsdf", value => {
-            expect(value).to.equal("ERROR: NaN");
+            expect(value).to.equal("ERROR: SteamID is NaN");
             done();
         });
     });

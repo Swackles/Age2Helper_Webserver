@@ -2,7 +2,7 @@ const https = require('https');
 const xml =  require('xml-js');
 
 module.exports.readUserCountry = (steamId, returnFunc) => {
-    if (isNaN(steamId)) { return returnFunc("ERROR: NaN"); }
+    if (isNaN(steamId)) { return returnFunc("ERROR: SteamID is NaN"); }
 
     https.get(`https://steamcommunity.com/profiles/${steamId}/?xml=1`, res => {
     let data = '';
@@ -15,6 +15,7 @@ module.exports.readUserCountry = (steamId, returnFunc) => {
         data = JSON.parse(xml.xml2json(data, { compact: true, spaces: 4}));
         if (data.hasOwnProperty("response") && data.response.hasOwnProperty("error")) { return returnFunc("ERROR: Invalid steamID"); }
         if (data.hasOwnProperty("profile") && !data.profile.hasOwnProperty("location")) { return returnFunc("ERROR: No country exists"); }
+        if (typeof data.profile.location._cdata == "undefined") { return returnFunc("ERROR: No country exists"); }
 
         data = data.profile.location._cdata;
         data = data.split(", ");

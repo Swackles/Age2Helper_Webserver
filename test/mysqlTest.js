@@ -247,7 +247,7 @@ describe("Database user Select query", () => {
             expect(connection).to.not.equal(null);
 
             mysql.selectUser(connection, { User: { } }, (res, err) => {
-                expect(err).to.equal("ERROR: Steam ID is NaN");
+                expect(err).to.equal("ERROR: SteamID is NaN");
                 expect(res).to.equal(null);
                 
                 mysql.cancelTransaction(connection, () => {
@@ -263,7 +263,7 @@ describe("Database user Select query", () => {
             expect(connection).to.not.equal(null);
 
             mysql.selectUser(connection, { User: { SteamID: "asdafsdf" } }, (res, err) => {
-                expect(err).to.equal("ERROR: Steam ID is NaN");
+                expect(err).to.equal("ERROR: SteamID is NaN");
                 expect(res).to.equal(null);
                 
                 mysql.cancelTransaction(connection, () => {
@@ -329,7 +329,7 @@ describe("Database user insert query", () => {
             expect(connection).to.not.equal(null);
 
             mysql.selectUser(connection, { Country: { Id: 1 }, User: { } }, (res, err) => {
-                expect(err).to.equal("ERROR: Steam ID is NaN");
+                expect(err).to.equal("ERROR: SteamID is NaN");
                 expect(res).to.equal(null);
                 
                 mysql.cancelTransaction(connection, () => {
@@ -345,7 +345,7 @@ describe("Database user insert query", () => {
             expect(connection).to.not.equal(null);
 
             mysql.selectUser(connection, { Country: { Id: 1 }, User: { SteamID: "asdafsdf" } }, (res, err) => {
-                expect(err).to.equal("ERROR: Steam ID is NaN");
+                expect(err).to.equal("ERROR: SteamID is NaN");
                 expect(res).to.equal(null);
                 
                 mysql.cancelTransaction(connection, () => {
